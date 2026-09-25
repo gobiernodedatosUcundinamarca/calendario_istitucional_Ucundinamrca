@@ -1,0 +1,44 @@
+/* Bloque: vista-linea — la variable --dias (28–31) define las columnas */
+.vista-linea { display: flex; flex-direction: column; gap: 6px; padding-bottom: 12px; }
+.vista-linea__cabecera {
+  position: sticky; top: 0; z-index: var(--capa-pegajosa);
+  display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 12px; padding-bottom: 4px;
+  background: var(--color-bg);
+}
+.vista-linea__rotulo { align-self: end; }
+.vista-linea__dias, .vista-linea__barras { display: grid; grid-template-columns: repeat(var(--dias), minmax(0, 1fr)); }
+.vista-linea__dias { gap: 2px; }
+.vista-linea__dia {
+  display: flex; flex-direction: column; align-items: center; padding: 3px 0; border-radius: 8px;
+  font-size: 10.5px; line-height: 1.3;
+}
+.vista-linea__dia--finde { background: var(--color-neutral-300); }
+.vista-linea__dia--hoy { background: var(--color-accent); color: var(--color-bg); }
+.vista-linea__letra { opacity: .7; }
+.vista-linea__numero { font-weight: 700; }
+
+.vista-linea__unidad {
+  display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 12px; padding: 10px 10px 10px 16px;
+  background: var(--color-neutral-100); border-radius: 18px;
+}
+.vista-linea__unidad-info { display: flex; flex-direction: column; justify-content: center; gap: 2px; }
+.vista-linea__unidad-nombre { font-size: 13px; font-weight: 700; line-height: 1.3; }
+.vista-linea__unidad-conteo { font-size: 11.5px; color: var(--color-neutral-700); }
+.vista-linea__barras { grid-auto-rows: 28px; gap: 4px 2px; }
+.vista-linea__hoy { background: var(--color-accent-200); border-radius: var(--radius-sm); }
+.vista-linea__barra {
+  display: flex; align-items: center; gap: 6px; min-width: 0; padding: 0 8px; border: 0; border-radius: var(--radius-pill);
+  text-align: left; cursor: pointer; font: 600 11.5px var(--font-body);
+  background: var(--tipo-fondo); color: var(--tipo-texto); box-shadow: inset 0 0 0 1.5px var(--tipo-solido);
+}
+.vista-linea__barra-texto { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+@media (max-width: 860px) {
+  .vista-linea { min-width: 860px; }
+  .vista-linea__cabecera, .vista-linea__unidad { grid-template-columns: 150px minmax(0, 1fr); }
+}
+
+@media print {
+  .vista-linea__cabecera { position: static; }
+  .vista-linea__unidad { break-inside: avoid; }
+}

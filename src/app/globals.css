@@ -1,0 +1,32 @@
+/*
+ * Único punto de entrada de CSS (ver CLAUDE.md → "CSS y BEM").
+ * Orden fijo: tokens → base → utilidades → bloques de ui → bloques de funcionalidades.
+ * Cada bloque BEM nuevo se registra aquí, en su sección.
+ */
+
+/* Fundamentos */
+@import "../styles/tokens.css";
+@import "../styles/base.css";
+@import "../styles/utilidades.css";
+
+/* Bloques de interfaz compartidos (src/components/ui) */
+@import "../components/ui/Boton/boton.css";
+@import "../components/ui/Entrada/entrada.css";
+@import "../components/ui/Campo/campo.css";
+@import "../components/ui/Insignia/insignia.css";
+@import "../components/ui/Dialogo/dialogo.css";
+
+/* Calendario (src/features/calendario) */
+@import "../features/calendario/components/Calendario/calendario.css";
+@import "../features/calendario/components/Encabezado/encabezado.css";
+@import "../features/calendario/components/MenuExportar/menu-exportar.css";
+@import "../features/calendario/components/BotonFiltros/boton-filtros.css";
+@import "../features/calendario/components/PanelFiltros/panel-filtros.css";
+@import "../features/calendario/components/BarraHerramientas/barra-herramientas.css";
+@import "../features/calendario/components/FiltrosActivos/filtros-activos.css";
+@import "../features/calendario/components/VistaMes/vista-mes.css";
+@import "../features/calendario/components/VistaSemana/vista-semana.css";
+@import "../features/calendario/components/VistaAgenda/vista-agenda.css";
+@import "../features/calendario/components/VistaLineaTiempo/vista-linea.css";
+@import "../features/calendario/components/VistaAnio/vista-anio.css";
+@import "../features/calendario/components/DetalleActividad/detalle-actividad.css";

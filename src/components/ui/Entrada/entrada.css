@@ -1,0 +1,17 @@
+/* Bloque: entrada — campo de texto, búsqueda o fecha. */
+.entrada {
+  width: 100%; min-width: 0; min-height: 36px; padding: 6px 14px;
+  font: inherit; font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider); border-radius: var(--radius-pill);
+}
+.entrada:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.entrada:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+.entrada[type="search"] { -webkit-appearance: none; appearance: none; }
+.entrada[type="date"] { padding-inline: 10px; font-size: 13px; }
+
+.entrada--clara { background: var(--color-neutral-100); }
+
+@media (max-width: 860px) {
+  .entrada { min-height: 44px; }
+}

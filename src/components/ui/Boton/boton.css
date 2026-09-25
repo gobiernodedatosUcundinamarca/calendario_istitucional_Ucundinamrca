@@ -1,0 +1,30 @@
+/* Bloque: boton — acciones. Siempre en píldora. */
+.boton {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 14px; line-height: 1.2; color: var(--color-text);
+  background: transparent; border: 1px solid transparent;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  border-radius: var(--radius-pill);
+}
+.boton svg { display: block; }
+.boton:disabled { opacity: .45; cursor: not-allowed; }
+
+.boton--primario { background: var(--color-accent); color: var(--color-bg); }
+.boton--primario:hover { background: var(--color-accent-600); }
+.boton--primario:active { background: var(--color-accent-700); }
+
+.boton--secundario { border-color: var(--color-divider); }
+.boton--secundario:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.boton--secundario:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+
+.boton--fantasma { color: var(--color-accent); padding-inline: var(--space-1); }
+.boton--fantasma:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.boton--fantasma:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+
+.boton--icono { width: 36px; height: 36px; padding: 0; }
+
+@media (max-width: 860px) {
+  .boton--icono { width: 44px; height: 44px; }
+}

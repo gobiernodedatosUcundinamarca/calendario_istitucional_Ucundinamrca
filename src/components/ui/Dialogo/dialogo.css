@@ -1,0 +1,26 @@
+/* Bloque: dialogo — fondo oscurecido + panel. En móvil, hoja inferior. */
+.dialogo {
+  position: fixed; inset: 0; z-index: var(--capa-dialogo);
+  display: grid; place-items: center; padding: 16px;
+  background: var(--color-velo);
+}
+.dialogo__panel {
+  width: min(580px, 100%); max-height: calc(100dvh - 32px); overflow: auto;
+  display: flex; flex-direction: column; gap: 18px; padding: 28px;
+  border-radius: calc(var(--radius-lg) * 1.15);
+  background: var(--color-surface); box-shadow: var(--shadow-lg);
+}
+.dialogo__acciones { display: flex; justify-content: flex-end; gap: var(--space-2); }
+
+@media (max-width: 860px) {
+  .dialogo { place-items: end stretch; padding: 0; }
+  .dialogo__panel {
+    width: 100%; max-height: 90dvh; gap: 14px; padding: 22px 20px 28px;
+    border-radius: var(--radius-hoja) var(--radius-hoja) 0 0;
+  }
+  .dialogo__accion { flex: 1; min-height: 48px; }
+}
+
+@media print {
+  .dialogo { display: none; }
+}

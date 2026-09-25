@@ -1,0 +1,21 @@
+/* Bloque: calendario — estructura de la aplicación (pantalla completa, columnas con scroll propio) */
+.calendario { height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
+.calendario__cuerpo { flex: 1; min-height: 0; display: flex; gap: 24px; padding: 0 28px 24px; }
+.calendario__principal { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.calendario__contenido { flex: 1; min-height: 0; overflow: auto; }
+.calendario__cargando { flex: 1; display: grid; place-items: center; margin: 0; color: var(--color-neutral-700); }
+
+@media (max-width: 1180px) {
+  .calendario__cuerpo { gap: 18px; }
+}
+
+@media (max-width: 860px) {
+  .calendario__cuerpo { padding: 0 16px 12px; }
+  .calendario__principal { gap: 10px; }
+}
+
+@media print {
+  .calendario { height: auto; display: block; }
+  .calendario__cuerpo { display: block; padding: 0; }
+  .calendario__contenido { overflow: visible; }
+}

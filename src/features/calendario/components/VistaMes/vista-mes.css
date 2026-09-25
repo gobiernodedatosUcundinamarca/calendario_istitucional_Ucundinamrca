@@ -1,0 +1,61 @@
+/* Bloque: vista-mes */
+.vista-mes { display: flex; flex-direction: column; height: 100%; gap: 6px; }
+.vista-mes__encabezados { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.vista-mes__encabezado { padding: 0 10px; }
+.vista-mes__encabezado-corto { display: none; }
+.vista-mes__rejilla {
+  flex: 1; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-auto-rows: minmax(112px, 1fr); gap: 6px;
+}
+
+.vista-mes__dia {
+  display: flex; flex-direction: column; gap: 3px; min-width: 0; padding: 6px;
+  background: var(--color-neutral-100); border-radius: 16px;
+}
+.vista-mes__dia--finde { background: var(--color-neutral-200); }
+.vista-mes__dia--fuera { background: transparent; opacity: .4; }
+
+.vista-mes__numero { align-self: flex-start; border: 0; padding: 0; background: transparent; color: var(--color-text); cursor: pointer; }
+.vista-mes__circulo {
+  display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  font: 700 13px var(--font-body);
+}
+.vista-mes__dia--hoy .vista-mes__circulo { background: var(--color-accent); color: var(--color-bg); }
+.vista-mes__puntos { display: none; gap: 2px; height: 5px; }
+.vista-mes__punto { width: 5px; height: 5px; border-radius: 50%; background: var(--tipo-solido); }
+
+.vista-mes__pildora {
+  display: flex; align-items: center; gap: 6px; width: 100%; min-width: 0; padding: 3px 7px;
+  border: 0; border-radius: 8px; text-align: left; cursor: pointer;
+  background: var(--tipo-fondo); color: var(--tipo-texto); font: 600 11.5px/1.35 var(--font-body);
+}
+.vista-mes__pildora-punto { width: 6px; height: 6px; border-radius: 50%; flex: none; background: var(--tipo-solido); }
+.vista-mes__pildora-texto { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vista-mes__mas {
+  align-self: flex-start; border: 0; background: transparent; padding: 1px 7px; cursor: pointer;
+  font: 600 11.5px var(--font-body); color: var(--color-accent-700);
+}
+
+/* Móvil: puntos en lugar de nombres; tocar el día abre su semana. */
+@media (max-width: 860px) {
+  .vista-mes { height: auto; }
+  .vista-mes__encabezados, .vista-mes__rejilla { gap: 4px; }
+  .vista-mes__encabezado { padding: 0; text-align: center; }
+  .vista-mes__encabezado-largo { display: none; }
+  .vista-mes__encabezado-corto { display: inline; }
+  .vista-mes__rejilla { flex: none; grid-auto-rows: 52px; }
+  .vista-mes__dia { position: relative; padding: 0; }
+  .vista-mes__numero {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 4px;
+  }
+  .vista-mes__circulo { width: 26px; height: 26px; }
+  .vista-mes__puntos { display: flex; }
+  .vista-mes__pildora, .vista-mes__mas { display: none; }
+}
+
+@media print {
+  .vista-mes { height: auto; }
+  .vista-mes__rejilla { grid-auto-rows: minmax(96px, auto); }
+  .vista-mes__dia { break-inside: avoid; }
+}

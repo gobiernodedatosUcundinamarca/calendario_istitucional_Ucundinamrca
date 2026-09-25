@@ -1,0 +1,14 @@
+/* Bloque: boton-filtros — solo en móvil */
+.boton-filtros {
+  display: none; position: relative; width: 44px; height: 44px; flex: none; place-items: center;
+  border: 0; border-radius: 50%; background: var(--color-text); color: var(--color-bg); cursor: pointer;
+}
+.boton-filtros__cantidad {
+  position: absolute; top: -2px; right: -2px; min-width: 20px; height: 20px; padding: 0 5px;
+  border-radius: var(--radius-pill); background: var(--color-accent); color: var(--color-bg);
+  font: 700 11px/20px var(--font-body);
+}
+
+@media (max-width: 860px) {
+  .boton-filtros { display: grid; }
+}

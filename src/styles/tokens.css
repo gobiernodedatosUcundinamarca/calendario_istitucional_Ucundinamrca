@@ -1,0 +1,82 @@
+/*
+ * Tokens de diseño — Universidad de Cundinamarca.
+ * Fuente: sistema de diseño del proyecto en Claude Design (ds/styles.css + ds/ucundinamarca.css,
+ * Manual de Imagen Institucional ECOM002 V17). Los nombres --color-*, --space-*, --radius-*
+ * y --shadow-* son los del sistema de diseño: no los renombres. Ningún componente usa
+ * colores, radios ni sombras literales: todo sale de aquí.
+ */
+:root {
+  /* ── Color: roles ── */
+  --color-bg: #ffffff;
+  --color-surface: #f1f5f2;
+  --color-text: #1b2420;
+  --color-accent: #007B3E;   /* verde institucional */
+  --color-accent-2: #DAAA00; /* amarillo institucional */
+  --color-divider: color-mix(in srgb, #1b2420 16%, transparent);
+
+  /* ── Color: rampas tonales ── */
+  --color-neutral-100: #f7f9f8;
+  --color-neutral-200: #edf1ee;
+  --color-neutral-300: #dde3df;
+  --color-neutral-400: #c1c8c3;
+  --color-neutral-500: #99a19c;
+  --color-neutral-600: #6f7672;
+  --color-neutral-700: #4D4D4D;
+  --color-neutral-800: #383a39;
+  --color-neutral-900: #232524;
+
+  --color-accent-100: #e8f4ed;
+  --color-accent-200: #cbe6d6;
+  --color-accent-300: #93cba9;
+  --color-accent-400: #3f9f68;
+  --color-accent-500: #007B3E;
+  --color-accent-600: #006532;
+  --color-accent-700: #00482B;
+  --color-accent-800: #003a22;
+  --color-accent-900: #002a18;
+
+  --color-accent-2-100: #fffae0;
+  --color-accent-2-200: #fdf0a8;
+  --color-accent-2-300: #FBE122;
+  --color-accent-2-400: #efcd0c;
+  --color-accent-2-500: #DAAA00;
+  --color-accent-2-600: #b38b00;
+  --color-accent-2-700: #876900;
+  --color-accent-2-800: #5f4a00;
+  --color-accent-2-900: #3d3000;
+
+  /* Velo detrás de diálogos y hojas. */
+  --color-velo: color-mix(in srgb, var(--color-neutral-900) 45%, transparent);
+
+  /* ── Tipografía: Montserrat (next/font la sirve desde el propio sitio) ── */
+  --font-heading: var(--fuente-montserrat), "Century Gothic", system-ui, sans-serif;
+  --font-heading-weight: 700;
+  --font-body: var(--fuente-montserrat), "Century Gothic", system-ui, sans-serif;
+
+  /* ── Espaciado ── */
+  --space-1: 4.4px;
+  --space-2: 8.8px;
+  --space-3: 13.2px;
+  --space-4: 17.6px;
+  --space-6: 26.4px;
+  --space-8: 35.2px;
+
+  /* ── Radios ── */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --radius-hoja: 32px;
+
+  /* ── Elevación ── */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #00482B 12%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #00482B 14%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #00482B 20%, transparent);
+
+  /* ── Capas (z-index) ── */
+  --capa-pegajosa: 2;
+  --capa-menu: 30;
+  --capa-dialogo: 40;
+  --capa-velo-hoja: 44;
+  --capa-hoja: 45;
+}

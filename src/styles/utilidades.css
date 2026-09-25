@@ -1,0 +1,16 @@
+/* Utilidades mínimas. Solo lo que no es de ningún bloque. */
+
+/* Oculto a la vista pero leído por lectores de pantalla. */
+.oculto-visual {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+/* Rótulo pequeño en mayúsculas (FECHA, UNIDAD REGIONAL, LUN…). Se mezcla con elementos BEM. */
+.rotulo {
+  font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 700;
+  color: var(--color-neutral-700);
+}
+
+/* Mensaje de "no hay resultados". */
+.vacio { padding: 60px 0; text-align: center; color: var(--color-neutral-700); }

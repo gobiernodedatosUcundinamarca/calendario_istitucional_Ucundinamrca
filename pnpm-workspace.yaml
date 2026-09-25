@@ -1,0 +1,23 @@
+# Configuración de pnpm. Las reglas completas están en CLAUDE.md → "Dependencias y seguridad".
+
+# Versiones exactas en package.json (sin ^ ni ~).
+savePrefix: ''
+
+# No instalar versiones publicadas hace menos de 1 día (minutos).
+minimumReleaseAge: 1440
+
+# Falla si un paquete pierde firma/procedencia respecto a versiones anteriores.
+# La revisión aplica a versiones publicadas en los últimos 30 días (minutos): es la
+# ventana en que se detectan las tomas de control. Versiones antiguas de ramas viejas
+# (p. ej. semver@6.3.1, publicadas a mano antes de existir la firma) no la tienen.
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 43200
+
+# Las dependencias transitivas solo pueden venir del registro (no git ni tarballs).
+blockExoticSubdeps: true
+
+# Ningún script de instalación de dependencias corre sin estar listado aquí.
+strictDepBuilds: true
+allowBuilds:
+  sharp: false
+  unrs-resolver: false

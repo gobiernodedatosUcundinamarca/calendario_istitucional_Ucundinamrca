@@ -1,0 +1,10 @@
+/* Bloque: insignia — estado de una actividad (Programada, En curso…). */
+.insignia {
+  display: inline-flex; align-items: center; flex: none;
+  font-size: 11px; letter-spacing: .02em; padding: 3px 10px;
+  border-radius: var(--radius-pill); white-space: nowrap;
+}
+.insignia--contorno { border: 1px solid var(--color-accent); color: var(--color-accent); }
+.insignia--acento { background: var(--color-accent-100); color: var(--color-accent-800); }
+.insignia--acento-2 { background: var(--color-accent-2-100); color: var(--color-accent-2-800); }
+.insignia--neutra { background: var(--color-neutral-100); color: var(--color-neutral-800); }

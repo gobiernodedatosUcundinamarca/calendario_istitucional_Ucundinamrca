@@ -1,0 +1,33 @@
+{
+  "name": "calendario-institucional-ucundinamarca",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Calendario institucional de la Universidad de Cundinamarca.",
+  "packageManager": "pnpm@12.6.0",
+  "engines": {
+    "node": ">=24.21.0",
+    "pnpm": ">=12.6.0"
+  },
+  "scripts": {
+    "preinstall": "node scripts/solo-pnpm.mjs",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "verificar": "pnpm lint && pnpm typecheck && pnpm build"
+  },
+  "dependencies": {
+    "next": "16.3.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "10.11.0",
+    "eslint-config-next": "16.3.6",
+    "typescript": "6.0.3"
+  }
+}

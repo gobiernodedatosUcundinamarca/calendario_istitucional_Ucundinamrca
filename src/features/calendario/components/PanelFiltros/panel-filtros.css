@@ -1,0 +1,74 @@
+/* Bloque: panel-filtros — barra lateral (escritorio) / hoja inferior (móvil) */
+.panel-filtros {
+  width: 300px; flex: none; display: flex; flex-direction: column; overflow: hidden;
+  background: var(--color-surface); border-radius: 28px;
+}
+.panel-filtros__asa, .panel-filtros__pie, .panel-filtros__velo { display: none; }
+.panel-filtros__desplazable {
+  flex: 1; min-height: 0; overflow: auto; padding: 20px 14px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+.panel-filtros__cabecera { display: flex; align-items: center; justify-content: space-between; padding: 0 8px; }
+.panel-filtros__titulo { font-size: 21px; }
+.panel-filtros__limpiar { font-size: 13px; }
+
+.panel-filtros__busqueda { position: relative; padding: 0 4px; }
+.panel-filtros__icono-busqueda { position: absolute; left: 18px; top: 10px; color: var(--color-neutral-600); pointer-events: none; }
+.panel-filtros__entrada-busqueda { padding-left: 38px; }
+
+.panel-filtros__grupo { display: flex; flex-direction: column; gap: 8px; }
+.panel-filtros__rotulo { padding: 0 8px; }
+.panel-filtros__grupo--lista { gap: 2px; }
+.panel-filtros__grupo--lista .panel-filtros__rotulo { padding-bottom: 6px; }
+.panel-filtros__fechas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; padding: 0 4px; }
+
+.panel-filtros__casilla {
+  display: flex; align-items: center; gap: 10px; padding: 5px 8px; border-radius: var(--radius-md);
+  cursor: pointer; font-size: 13.5px;
+}
+.panel-filtros__casilla:hover { background: var(--color-neutral-200); }
+.panel-filtros__casilla--ajustada { line-height: 1.3; }
+.panel-filtros__casilla-control { accent-color: var(--color-accent); width: 16px; height: 16px; margin: 0; flex: none; }
+.panel-filtros__casilla-texto { flex: 1; min-width: 0; }
+.panel-filtros__casilla-conteo { font-size: 11.5px; color: var(--color-neutral-700); }
+
+.panel-filtros__chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 4px; }
+.panel-filtros__chip {
+  display: flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: var(--radius-pill);
+  border: 1px solid var(--color-divider); background: var(--color-neutral-100); color: var(--color-text);
+  font: 600 12.5px var(--font-body); cursor: pointer;
+}
+.panel-filtros__chip:hover { background: var(--color-neutral-200); }
+.panel-filtros__chip--activo,
+.panel-filtros__chip--activo:hover { border-color: var(--color-accent); background: var(--color-accent); color: var(--color-bg); }
+.panel-filtros__chip-punto { width: 8px; height: 8px; border-radius: 50%; background: var(--tipo-solido); }
+
+@media (max-width: 1180px) {
+  .panel-filtros { width: 260px; }
+  .panel-filtros__fechas { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 860px) {
+  .panel-filtros {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--capa-hoja); width: auto; max-height: 86dvh;
+    border-radius: var(--radius-hoja) var(--radius-hoja) 0 0; background: var(--color-bg); box-shadow: var(--shadow-lg);
+    transform: translateY(100%); visibility: hidden; transition: transform .25s ease, visibility .25s;
+  }
+  /* Visible desde el primer instante para poder recibir el foco al abrir. */
+  .panel-filtros--abierto { transform: none; visibility: visible; transition: transform .25s ease, visibility 0s; }
+  .panel-filtros__velo { display: block; position: fixed; inset: 0; z-index: var(--capa-velo-hoja); background: var(--color-velo); }
+  .panel-filtros__asa { display: flex; justify-content: center; flex: none; padding: 10px; border: 0; background: transparent; cursor: pointer; }
+  .panel-filtros__asa-barra { width: 40px; height: 5px; border-radius: var(--radius-pill); background: var(--color-neutral-400); }
+  .panel-filtros__desplazable { padding: 0 16px 16px; }
+  .panel-filtros__limpiar { min-height: 44px; }
+  .panel-filtros__icono-busqueda { top: 14px; }
+  .panel-filtros__fechas { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .panel-filtros__casilla { min-height: 40px; }
+  .panel-filtros__chip { min-height: 40px; padding: 0 14px; }
+  .panel-filtros__pie { display: flex; flex: none; padding: 12px 16px 24px; }
+  .panel-filtros__ver { flex: 1; min-height: 48px; font-size: 15px; }
+}
+
+@media print {
+  .panel-filtros, .panel-filtros__velo { display: none; }
+}
