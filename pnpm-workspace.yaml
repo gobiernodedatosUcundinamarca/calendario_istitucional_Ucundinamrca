@@ -1,4 +1,4 @@
-# Configuración de pnpm. Las reglas completas están en CLAUDE.md → "Dependencias y seguridad".
+# Configuración de pnpm. Las reglas completas están en .claude/rules/dependencias-y-seguridad.md.
 
 # Versiones exactas en package.json (sin ^ ni ~).
 savePrefix: ''

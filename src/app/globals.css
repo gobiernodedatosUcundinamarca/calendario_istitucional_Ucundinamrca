@@ -1,5 +1,5 @@
 /*
- * Único punto de entrada de CSS (ver CLAUDE.md → "CSS y BEM").
+ * Único punto de entrada de CSS (ver .claude/rules/css-bem.md).
  * Orden fijo: tokens → base → utilidades → bloques de ui → bloques de funcionalidades.
  * Cada bloque BEM nuevo se registra aquí, en su sección.
  */
