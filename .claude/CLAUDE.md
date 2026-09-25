@@ -38,7 +38,6 @@ causa. Los ajustes personales van en `settings.local.json`, que no se versiona.
 
 ## Pendientes conocidos
 
-- Actualizar Node de 24.14.0 a 24.21.0 LTS en la máquina de desarrollo (requiere permisos de administrador).
 - Quitar `settings.react.version` de `eslint.config.mjs` cuando `eslint-plugin-react` soporte ESLint 10.
 - Ajustar con el equipo de diseño los colores de tipo que se confunden con daltonismo (`rules/visualizacion.md`).
 - Borrar `legacy/version-estatica/` cuando ya no haga falta como referencia.

@@ -2,12 +2,13 @@
 /**
  * Hook PreToolUse de Claude Code (Bash y PowerShell). Regla: .claude/rules/autoria.md
  *
- * El único autor de los commits es el usuario configurado en git. Bloquea (código 2)
+ * El único autor es quien hace el commit y el push, con su propia identidad de git (la
+ * configurada en su equipo). Vale para cualquier persona del equipo. Bloquea (código 2)
  * comandos git/gh que:
  *   1. agreguen coautoría o firmas de IA (Co-Authored-By, "Generated with Claude", 🤖…);
  *   2. cambien la identidad (--author, -c user.*, git config user.* <valor>, GIT_AUTHOR_*…);
  *   3. salten las verificaciones de git (--no-verify, commit -n);
- *   4. suban (push) commits con otro autor o con coautoría/firma de IA.
+ *   4. suban (push) commits de otra persona o con coautoría/firma de IA, o sin identidad configurada.
  *
  * Contrato: recibe el JSON del evento por stdin. Código 0 = permitir; código 2 = bloquear
  * (el motivo va por stderr y Claude lo recibe).
@@ -31,8 +32,8 @@ const ESCRIBE_MENSAJE = /\bgit\s+(commit|tag|notes|merge|revert|cherry-pick)\b|\
 function bloquear(motivo) {
   process.stderr.write(
     `Bloqueado por .claude/hooks/proteger-autoria.mjs: ${motivo}\n` +
-      'Regla del proyecto (.claude/rules/autoria.md): el único autor es el usuario de git; ' +
-      'no se agrega a Claude ni a otra IA como autor o coautor.\n',
+      'Regla del proyecto (.claude/rules/autoria.md): el único autor es quien hace el commit y el push, ' +
+      'con su propia identidad de git; no se agrega a Claude ni a otra IA como autor o coautor.\n',
   );
   process.exit(2);
 }
@@ -62,21 +63,32 @@ function git(cwd, ...args) {
   return execFileSync('git', args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
 }
 
-/** Revisa los commits que aún no están en ningún remoto antes de un push. */
+/** Antes de un push: los commits que aún no están en ningún remoto deben ser de quien hace el push. */
 function revisarPush(cwd) {
-  let correo;
   let registro;
   try {
-    correo = git(cwd, 'config', 'user.email').toLowerCase();
     registro = git(cwd, 'log', '--format=%h%x1f%an%x1f%ae%x1f%cn%x1f%ce%x1f%B%x1e', 'HEAD', '--not', '--remotes');
   } catch {
     return; // Sin repositorio o sin commits: que git informe el error.
   }
+  if (!registro) return; // Nada nuevo que subir.
+
+  let correo = '';
+  try {
+    correo = git(cwd, 'config', 'user.email').toLowerCase();
+  } catch {
+    // git config sale con error si no hay user.email.
+  }
+  if (!correo) bloquear('no hay identidad de git configurada (user.email). Configura la tuya antes de hacer push.');
+
   for (const bloque of registro.split('\x1e')) {
     const [hash, autor, correoAutor, committer, correoCommitter, mensaje = ''] = bloque.trim().split('\x1f');
     if (!hash) continue;
     if (correoAutor?.toLowerCase() !== correo || correoCommitter?.toLowerCase() !== correo) {
-      bloquear(`el commit ${hash} tiene autor/committer "${autor} <${correoAutor}>" / "${committer} <${correoCommitter}>", distinto del usuario configurado (${correo}).`);
+      bloquear(
+        `el commit ${hash} es de "${autor} <${correoAutor}>" (committer "${committer} <${correoCommitter}>"), ` +
+          `no de quien hace el push (${correo}). Cada quien sube sus propios commits.`,
+      );
     }
     if (IDENTIDAD_IA.test(`${autor} ${correoAutor} ${committer} ${correoCommitter}`)) {
       bloquear(`el commit ${hash} tiene una identidad de IA como autor o committer.`);
@@ -121,7 +133,7 @@ if (/\bgit\b[^\n;|&]*\s--no-verify\b/i.test(sinComillas) || /\bgit\s+commit\b[^\
   bloquear('--no-verify (o commit -n) salta las verificaciones de git.');
 }
 
-// 4. Push: los commits que se van a subir deben ser del usuario y sin firmas de IA.
+// 4. Push: los commits que se van a subir deben ser de quien hace el push y sin firmas de IA.
 if (/\bgit\s+push\b/i.test(sinComillas)) revisarPush(cwd);
 
 process.exit(0);

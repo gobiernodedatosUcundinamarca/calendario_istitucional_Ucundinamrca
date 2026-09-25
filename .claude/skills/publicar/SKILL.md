@@ -14,8 +14,8 @@ Aplica la regla de autoría (`.claude/rules/autoria.md`).
 3. **Commit:** mensaje en español, con una línea de resumen en imperativo y, si hace falta, viñetas.
    En PowerShell pasa el mensaje con `git commit -F <archivo>` (un archivo temporal UTF-8): con `-F -` y un
    here-string PowerShell no lo envía por la entrada estándar.
-4. **Push:** `git push` (`main` ya sigue a `origin/main`).
-5. **Confirma:** `git fetch origin` y compara `git rev-parse main` con `git rev-parse origin/main`.
+4. **Push:** `git push`. Si la rama aún no tiene rama remota, `git push -u origin <rama>`.
+5. **Confirma:** `git fetch` y compara `git rev-parse HEAD` con `git rev-parse @{u}`.
 
 Si el push falla por credenciales ("could not read Username", "Cannot prompt"), es porque la sesión tiene
 desactivado el inicio de sesión de Git Credential Manager. Avísale al usuario que se abrirá la ventana de
