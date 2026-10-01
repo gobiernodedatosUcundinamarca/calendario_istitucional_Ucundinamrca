@@ -111,7 +111,7 @@ def generar(filas: list[dict], origen: str) -> dict:
         ' *\n'
         ' * Campos: nombre · categoria (una de `categorias`) · subcategoria opcional · calendario (uno de `calendarios`)\n'
         ' * · inicio/fin (AAAA-MM-DD) · hora/horaFin opcionales (HH:MM) · responsable · lider · regionales (\'todas\' o\n'
-        ' * lista de sedes) · lugar, observaciones, documento, enlace y estado opcionales.\n'
+        ' * lista de sedes) · lugar y observaciones opcionales.\n'
         ' */\n'
         "import type { ActividadFuente } from '@/features/calendario/tipos';\n\n"
         '/** Valida cada actividad por separado: TypeScript no puede validar de una vez un arreglo tan grande. */\n'

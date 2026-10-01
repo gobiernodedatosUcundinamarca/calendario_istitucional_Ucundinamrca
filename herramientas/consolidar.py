@@ -73,14 +73,20 @@ REPITE = ['No', 'Cada semana', 'Cada 15 días', 'Cada mes', 'Cada 2 meses', 'Cad
 DIAS_REPITE = {'Cada semana': 7, 'Cada 15 días': 14}
 MESES_REPITE = {'Cada mes': 1, 'Cada 2 meses': 2, 'Cada 3 meses': 3, 'Cada 6 meses': 6}
 
-HOJA_AREA, HOJA_ACTIVIDADES = '1. Datos del área', '2. Actividades'
+HOJA = 'Formato'
+HOJAS_V2 = ('1. Datos del área', '2. Actividades')  # formato anterior, de dos hojas
+DATOS_AREA = 'Datos del área'  # bloque de la parte de arriba de la hoja «Formato»
+FILAS_AREA = range(1, 10)
+# Etiqueta en la columna A (valor en B) y en la D (valor en F).
+COLUMNAS_AREA = ((1, 2), (4, 6))
+FILA_ENCABEZADO, PRIMERA_FILA, ULTIMA_FILA_FORMATO = 10, 11, 310
 CAMPOS_AREA = {
     'area': 'Área o dependencia', 'lider': 'Unidad Líder', 'sede': 'Sede principal', 'calendario': 'Calendario principal',
     'quien': 'Nombre de quien diligencia', 'correo': 'Correo institucional', 'telefono': 'Extensión / teléfono',
     'envio': 'Fecha de envío', 'visto_bueno': 'Visto bueno del jefe del área (nombre y cargo)',
 }
 FECHAS = [f'fecha{i}' for i in range(1, 13)]
-# Columnas A–Z de «2. Actividades». La M («✔ Así quedó») es una fórmula y no se lee.
+# Columnas A–Z de la tabla de «Formato». La M («✔ Así quedó») es una fórmula y no se lee.
 COLUMNAS = ['actividad', 'categoria', 'subcategoria', 'responsable', 'calendario', 'sede', 'lugar', 'hora_inicio',
             'hora_fin', 'repite', 'desde', 'hasta', 'asi_quedo', *FECHAS, 'observaciones']
 ENCABEZADOS = ['Actividad', 'Categoría', 'Subcategoría (opcional)', 'Responsable (vacío = el área)',
@@ -89,14 +95,6 @@ ENCABEZADOS = ['Actividad', 'Categoría', 'Subcategoría (opcional)', 'Responsab
                'Así quedó (automático)', *[f'Fecha {i}' for i in range(1, 13)], 'Observaciones']
 # La primera versión del formato no pedía subcategoría, responsable ni calendario.
 ENCABEZADOS_V1 = [e for e in ENCABEZADOS if e.split(' ')[0] not in ('Subcategoría', 'Responsable', 'Calendario')]
-ULTIMA_FILA_FORMATO = 301
-# Filas de la hoja «Ejemplos» (nombre y primera fecha): si llegan en «2. Actividades», se copiaron por error.
-EJEMPLOS = {
-    ('festival de musica andina', dt.date(2027, 5, 12)), ('festival de tunas', dt.date(2027, 5, 10)),
-    ('comite curricular ingenieria', dt.date(2027, 2, 3)), ('reunion de coordinadores', dt.date(2027, 2, 8)),
-    ('consejo de facultad', dt.date(2027, 2, 10)),
-    ('campana de sensibilizacion en equidad de genero', dt.date(2027, 3, 1)),
-}
 PLANTILLA = HERRAMIENTAS / 'plantilla' / 'Formato Calendario Institucional - Areas.xlsx'
 
 
@@ -367,35 +365,39 @@ def leer_archivo(ruta: Path, anio: int | None) -> Archivo:
         except Exception as e:  # noqa: BLE001 — cualquier archivo ilegible se reporta igual
             raise Rechazo(f'No se pudo abrir (dañado o protegido con contraseña): {type(e).__name__}') from None
         hojas = {plano(n): wb[n] for n in wb.sheetnames}
-        hoja_area, hoja_act = hojas.get(plano(HOJA_AREA)), hojas.get(plano(HOJA_ACTIVIDADES))
-        if hoja_area is None or hoja_act is None:
-            raise Rechazo(f'No es el formato: faltan las hojas «{HOJA_AREA}» y «{HOJA_ACTIVIDADES}» (tiene: {", ".join(wb.sheetnames)})')
-        revisar_encabezados(hoja_act)
-        leer_datos_area(a, hoja_area)
+        hoja = hojas.get(plano(HOJA))
+        if hoja is None:
+            if all(plano(n) in hojas for n in HOJAS_V2):
+                raise Rechazo('Usa la versión anterior del formato, de dos hojas: envíele el formato vigente (una sola hoja, '
+                              '«Formato») y pídale que pase allí sus actividades')
+            raise Rechazo(f'No es el formato: falta la hoja «{HOJA}» (tiene: {", ".join(wb.sheetnames)})')
+        revisar_encabezados(hoja)
+        leer_datos_area(a, hoja)
         revisar_version(a, hojas)
-        leer_actividades(a, hoja_act, anio)
+        leer_actividades(a, hoja, anio)
     except Rechazo as r:
         a.rechazar(str(r))
     return a
 
 
 def leer_datos_area(a: Archivo, hoja) -> None:
-    filas = {plano(hoja.cell(r, 1).value): r for r in range(1, 40) if hoja.cell(r, 1).value}
+    celdas = {plano(hoja.cell(r, col).value): (r, valor) for r in FILAS_AREA for col, valor in COLUMNAS_AREA
+              if hoja.cell(r, col).value}
     for campo, etiqueta in CAMPOS_AREA.items():
-        r = filas.get(plano(etiqueta))
-        if r is None:
-            raise Rechazo(f'Se modificó la hoja «{HOJA_AREA}»: no está el campo «{etiqueta}»')
-        a.datos[campo] = hoja.cell(r, 2).value
+        if plano(etiqueta) not in celdas:
+            raise Rechazo(f'Se modificó la hoja «{HOJA}»: no está el campo «{etiqueta}» de los {DATOS_AREA.lower()}')
+        r, col = celdas[plano(etiqueta)]
+        a.datos[campo] = hoja.cell(r, col).value
 
     def aviso(mensaje: str) -> None:
         a.avisos.append(('—', '', mensaje))
 
     if not a.area:
-        raise Rechazo(f'Falta «Área o dependencia» en «{HOJA_AREA}»: no se sabe de quién son las actividades')
+        raise Rechazo(f'Falta «Área o dependencia» en «{DATOS_AREA}»: no se sabe de quién son las actividades')
     a.datos['area'] = nombre_area(a.datos['area'])
     lider = opcion(a.datos['lider'], LIDERES)
     if not lider:
-        raise Rechazo(f'Falta la «Unidad Líder» en «{HOJA_AREA}» o no es una de la lista')
+        raise Rechazo(f'Falta la «Unidad Líder» en «{DATOS_AREA}» o no es una de la lista')
     a.datos['lider'] = lider
     sede = opcion(a.datos['sede'], SEDES, ALIAS_SEDES)
     if not vacio(a.datos['sede']) and not sede:
@@ -414,7 +416,7 @@ def leer_datos_area(a: Archivo, hoja) -> None:
         aviso(f'La «Fecha de envío» «{texto(envio)}» no es una fecha: se usa la fecha del archivo')
     for campo in ('quien', 'correo', 'visto_bueno'):
         if vacio(a.datos[campo]):
-            aviso(f'Falta «{CAMPOS_AREA[campo]}» en «{HOJA_AREA}»')
+            aviso(f'Falta «{CAMPOS_AREA[campo]}» en «{DATOS_AREA}»')
     correo = texto(a.datos['correo'])
     if correo and not re.fullmatch(rf'[^@\s]+@{re.escape(DOMINIO_CORREO)}', correo, re.IGNORECASE):
         aviso(f'El correo «{correo}» no es institucional (@{DOMINIO_CORREO})')
@@ -434,33 +436,27 @@ def revisar_version(a: Archivo, hojas: dict) -> None:
                 distintas.append(texto(listas.cell(1, col).value) or f'columna {get_column_letter(col)}')
         if distintas:
             a.avisos.append(('—', '', f'Usa otra versión del formato (cambian las listas de: {", ".join(distintas)}). Envíele el formato vigente'))
-    ejemplos = hojas.get('ejemplos')
-    if ejemplos is not None:
-        propias = [r for r in range(2, 9) if texto(ejemplos.cell(r, 1).value)
-                   and plano(ejemplos.cell(r, 1).value) not in {n for n, _ in EJEMPLOS}]
-        if propias:
-            a.avisos.append(('—', '', f'Escribió actividades en la hoja «Ejemplos» (filas {", ".join(map(str, propias))}): '
-                                      f'esas no se toman; deben ir en «{HOJA_ACTIVIDADES}»'))
 
 
 def revisar_encabezados(hoja) -> None:
-    encontrados = [plano(hoja.cell(1, c).value) for c in range(1, len(ENCABEZADOS) + 1)]
+    encontrados = [plano(hoja.cell(FILA_ENCABEZADO, c).value) for c in range(1, len(ENCABEZADOS) + 1)]
     if encontrados[:len(ENCABEZADOS_V1)] == [plano(e) for e in ENCABEZADOS_V1]:
         raise Rechazo('Usa la versión anterior del formato, sin «Subcategoría», «Responsable» ni «Calendario»: '
                       'envíele el formato vigente y pídale que pase allí sus actividades')
     for c, (esperado, encontrado) in enumerate(zip(ENCABEZADOS, encontrados), start=1):
         if plano(esperado) != encontrado:
-            raise Rechazo(f'Se modificaron las columnas de «{HOJA_ACTIVIDADES}»: la columna {get_column_letter(c)} '
-                          f'dice «{texto(hoja.cell(1, c).value)}» y debería decir «{esperado}»')
+            raise Rechazo(f'Se modificaron las columnas de «{HOJA}»: la columna {get_column_letter(c)} '
+                          f'dice «{texto(hoja.cell(FILA_ENCABEZADO, c).value)}» y debería decir «{esperado}»')
 
 
 def leer_actividades(a: Archivo, hoja, anio: int | None) -> None:
-    combinadas = [str(r) for r in hoja.merged_cells.ranges if r.max_row >= 2 and r.min_col <= len(COLUMNAS)]
+    combinadas = [str(r) for r in hoja.merged_cells.ranges if r.max_row >= PRIMERA_FILA and r.min_col <= len(COLUMNAS)]
     if combinadas:
-        a.avisos.append(('—', '', f'Hay celdas combinadas en «{HOJA_ACTIVIDADES}» ({", ".join(combinadas[:5])}): '
+        a.avisos.append(('—', '', f'Hay celdas combinadas en la tabla de «{HOJA}» ({", ".join(combinadas[:5])}): '
                                   'solo se lee la primera celda de cada grupo'))
     vacias_seguidas = 0
-    for numero, valores in enumerate(hoja.iter_rows(min_row=2, max_col=len(COLUMNAS), values_only=True), start=2):
+    for numero, valores in enumerate(hoja.iter_rows(min_row=PRIMERA_FILA, max_col=len(COLUMNAS), values_only=True),
+                                     start=PRIMERA_FILA):
         c = dict(zip(COLUMNAS, valores))
         if all(vacio(v) for k, v in c.items() if k not in ('asi_quedo', 'observaciones')):
             if not vacio(c['observaciones']):
@@ -510,7 +506,7 @@ def revisar_fila(a: Archivo, numero: int, c: dict, anio: int | None) -> tuple[Fi
     if vacio(c['sede']):
         sede = a.datos['sede']
         if not sede:
-            errores.append(f'Falta la sede: elíjala en la fila o en «Sede principal» de «{HOJA_AREA}»')
+            errores.append(f'Falta la sede: elíjala en la fila o en «Sede principal» de «{DATOS_AREA}»')
     else:
         sede = opcion(c['sede'], SEDES, ALIAS_SEDES)
         if not sede:
@@ -522,7 +518,7 @@ def revisar_fila(a: Archivo, numero: int, c: dict, anio: int | None) -> tuple[Fi
         calendario = a.datos['calendario']
         if not calendario:
             errores.append(f'Falta el calendario (Académico o Administrativo): elíjalo en la fila o en '
-                           f'«Calendario principal» de «{HOJA_AREA}»')
+                           f'«Calendario principal» de «{DATOS_AREA}»')
     else:
         calendario = opcion(c['calendario'], CALENDARIOS)
         if not calendario:
@@ -588,8 +584,6 @@ def revisar_fila(a: Archivo, numero: int, c: dict, anio: int | None) -> tuple[Fi
             errores.append('El periodo no puede pasar de 2 años')
 
     primera = fechas[0] if fechas else desde
-    if (plano(nombre), primera) in EJEMPLOS:
-        errores.insert(0, 'Es una fila de la hoja «Ejemplos»: bórrela')
     if primera and primera.year < HOY.year:
         errores.append(f'La fecha {dmy(primera)} es de un año que ya pasó: revise el año')
 

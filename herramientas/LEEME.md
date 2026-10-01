@@ -38,9 +38,16 @@ El Excel fuente tiene las mismas columnas que el calendario institucional 2026, 
 - Fecha inicio, Fecha fin, Día y Mes.
 - Tres columnas más dicen de dónde viene cada fila: Repetición, Ajuste y Origen.
 
+El formato es **una sola hoja visible, «Formato»**: arriba los datos del área (filas 4 a 8), debajo la tabla de
+actividades (encabezado en la fila 10, actividades desde la 11 hasta la 310). No trae hoja de ejemplos ni de
+instrucciones: la ayuda de cada columna está en una nota sobre su encabezado. La hoja «Listas» está oculta y alimenta
+las listas desplegables. Si se cambia la posición de los datos del área o del encabezado, actualice las constantes
+de `consolidar.py` (`FILAS_AREA`, `COLUMNAS_AREA`, `FILA_ENCABEZADO`, `PRIMERA_FILA`) y vuelva a crear el `.exe`.
+Un archivo del formato anterior (dos hojas) se rechaza con el aviso de enviar el vigente.
+
 Cómo se llena cada columna desde el formato:
 
-- Unidad líder sale de «1. Datos del área».
+- Unidad líder sale de los datos del área.
 - Responsable, Calendario y Unidad regional salen de la fila y, si están vacíos, del área (el área, el «Calendario principal» y la «Sede principal»).
 - Día y Mes se calculan de la fecha.
 
