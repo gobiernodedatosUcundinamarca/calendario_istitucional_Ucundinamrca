@@ -19,7 +19,7 @@ Fuente: sistema de diseño del proyecto (Manual de Imagen Institucional ECOM002 
 - Texto en `--color-text`; texto secundario en `--color-neutral-700`. **Nunca `neutral-600` o más claro
   para texto** (4,2:1 sobre la superficie, no pasa AA); `neutral-600` es solo para íconos y bordes.
 - Los estados de actividad tienen insignia fija (`VARIANTE_ESTADO`): Programada = contorno verde,
-  En curso = amarillo, Finalizada = neutra, Aplazada = verde claro.
+  En curso = amarillo, Finalizada = neutra. El estado se calcula por las fechas, no se escribe en los datos.
 
 ## Tipografía
 

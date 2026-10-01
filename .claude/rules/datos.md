@@ -6,8 +6,12 @@ paths:
 
 # Datos del calendario
 
-- La app toma las actividades del **Excel fuente** `data/Calendario institucional.xlsx`. `herramientas/cargar.py`
-  genera desde él `src/datos/actividades.ts` y `src/datos/responsables.ts`: esos dos archivos no se editan a mano.
+- **Regla: los datos de la app salen siempre del Excel consolidado** `data/Calendario institucional.xlsx`, y de
+  ningún otro lado. Los formatos de las áreas (`herramientas/formatos/`) no alimentan la app directamente: pasan
+  primero por `consolidar.py`, que escribe el consolidado. No se escriben ni se editan actividades en
+  `src/datos/actividades.ts` ni `responsables.ts` (ni a mano ni con scripts propios): se corrige el consolidado
+  (o el formato del área y se vuelve a consolidar) y se corre `herramientas/cargar.py`, que los regenera.
+- `herramientas/cargar.py` genera desde el consolidado `src/datos/actividades.ts` y `src/datos/responsables.ts`.
 - `herramientas/consolidar.py` (formatos de las áreas) e `herramientas/importar-2026.py` (carga única de 2026)
   **reemplazan en el Excel fuente los años que cargan y conservan los demás**. Antes guardan una copia en
   `herramientas/salida/respaldos`. El uso, las reglas de consolidación y el informe de revisión están en
