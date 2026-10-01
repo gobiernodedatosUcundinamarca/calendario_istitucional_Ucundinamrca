@@ -4,6 +4,7 @@ import { VARIANTE_ESTADO } from '../../constantes';
 import { estadoDe } from '../../lib/actividades';
 import { estiloTipo } from '../../lib/colores';
 import { textoRango } from '../../lib/fechas';
+import { textoHora } from '../../lib/texto';
 import type { Actividad } from '../../tipos';
 import { construirAgenda } from './modelo';
 
@@ -38,11 +39,12 @@ export function VistaAgenda({ actividades, desde, hoy, onSeleccionar }: VistaAge
                     <span className="vista-agenda__punto" />
                     <span className="vista-agenda__textos">
                       <span className="vista-agenda__nombre">
-                        <span className="oculto-visual">{a.tipo}: </span>
+                        <span className="oculto-visual">{a.categoria}: </span>
                         {a.nombre}
                       </span>
                       <span className="vista-agenda__cuando">
-                        {textoRango(a.inicio, a.fin)} · {a.hora ? `${a.hora} h` : 'Todo el día'}
+                        {textoRango(a.inicio, a.fin)} · {textoHora(a)}
+                        {a.lugar && ` · ${a.lugar}`}
                       </span>
                       <span className="vista-agenda__unidad-movil">{a.lider}</span>
                     </span>

@@ -2,7 +2,7 @@ import { Icono } from '@/components/ui/Icono/Icono';
 import { fechaCorta } from '../../lib/fechas';
 import type { Filtros, GrupoFiltro } from '../../tipos';
 
-const GRUPOS: readonly GrupoFiltro[] = ['regionales', 'lideres', 'responsables', 'tipos'];
+const GRUPOS: readonly GrupoFiltro[] = ['regionales', 'calendarios', 'lideres', 'responsables', 'tipos'];
 
 interface Chip {
   clave: string;

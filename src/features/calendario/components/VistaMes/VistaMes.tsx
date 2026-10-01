@@ -54,10 +54,10 @@ export function VistaMes({ actividades, ancla, hoy, onSeleccionar, onIrADia }: V
               </span>
             </button>
             {c.actividades.slice(0, MAX_PILDORAS_DIA).map((a) => (
-              <button key={a.id} type="button" className="vista-mes__pildora" title={`${a.tipo} · ${a.nombre}`} style={estiloTipo(a.color)} onClick={() => onSeleccionar(a.id)}>
+              <button key={a.id} type="button" className="vista-mes__pildora" title={`${a.categoria} · ${a.nombre}`} style={estiloTipo(a.color)} onClick={() => onSeleccionar(a.id)}>
                 <span className="vista-mes__pildora-punto" />
                 <span className="vista-mes__pildora-texto">
-                  <span className="oculto-visual">{a.tipo}: </span>
+                  <span className="oculto-visual">{a.categoria}: </span>
                   {a.nombre}
                 </span>
               </button>

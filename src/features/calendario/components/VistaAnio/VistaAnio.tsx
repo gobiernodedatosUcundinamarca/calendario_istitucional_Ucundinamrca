@@ -11,11 +11,11 @@ interface VistaAnioProps {
   onIrAMes: (primerDia: string) => void;
 }
 
-/** Bloque BEM `vista-anio`: doce meses como mapa de densidad (actividades por día). */
+/** Bloque BEM `vista-anio`: doce meses como mapa de densidad (actividades puntuales por día). */
 export function VistaAnio({ actividades, ancla, hoy, onIrAMes }: VistaAnioProps) {
   const fecha = aFecha(ancla);
   const anio = fecha.getFullYear();
-  const meses = construirAnio(actividades, anio, hoy);
+  const { meses, rangos } = construirAnio(actividades, anio, hoy);
 
   return (
     <>
@@ -43,11 +43,14 @@ export function VistaAnio({ actividades, ancla, hoy, onIrAMes }: VistaAnioProps)
         ))}
       </div>
       <div className="vista-anio__leyenda">
-        Menos
-        {([1, 2, 3, 4] as const).map((n) => (
-          <span key={n} className={`vista-anio__muestra vista-anio__muestra--nivel-${n}`} aria-hidden="true" />
+        <span className="vista-anio__leyenda-titulo">Actividades por día:</span>
+        {rangos.map((texto, i) => (
+          <span key={texto} className="vista-anio__leyenda-item">
+            <span className={`vista-anio__muestra vista-anio__muestra--nivel-${i + 1}`} aria-hidden="true" />
+            {texto}
+          </span>
         ))}
-        Más actividades por día
+        <span className="vista-anio__leyenda-nota">No cuenta las actividades de una semana o más.</span>
       </div>
     </>
   );

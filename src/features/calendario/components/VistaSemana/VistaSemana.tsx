@@ -1,6 +1,7 @@
 import { clases } from '@/lib/clases';
 import { estiloTipo } from '../../lib/colores';
 import { aFecha, lunesDe } from '../../lib/fechas';
+import { textoHora } from '../../lib/texto';
 import type { Actividad } from '../../tipos';
 import { construirSemana } from './modelo';
 
@@ -31,8 +32,8 @@ export function VistaSemana({ actividades, ancla, hoy, onSeleccionar }: VistaSem
             {d.actividades.length ? (
               d.actividades.map((a) => (
                 <button key={a.id} type="button" className="vista-semana__actividad" style={estiloTipo(a.color)} onClick={() => onSeleccionar(a.id)}>
-                  <span className="oculto-visual">{a.tipo}: </span>
-                  <span className="vista-semana__hora">{a.hora ? `${a.hora} h` : 'Todo el día'}</span>
+                  <span className="oculto-visual">{a.categoria}: </span>
+                  <span className="vista-semana__hora">{textoHora(a)}</span>
                   <span className="vista-semana__nombre-actividad">{a.nombre}</span>
                   <span className="vista-semana__unidad">{a.lider}</span>
                 </button>

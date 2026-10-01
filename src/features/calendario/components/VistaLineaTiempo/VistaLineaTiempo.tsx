@@ -48,12 +48,12 @@ export function VistaLineaTiempo({ actividades, ancla, hoy, unidades, onSeleccio
                 key={b.actividad.id}
                 type="button"
                 className="vista-linea__barra"
-                title={`${b.actividad.tipo} · ${b.actividad.nombre}`}
+                title={`${b.actividad.categoria} · ${b.actividad.nombre}`}
                 style={{ ...estiloTipo(b.actividad.color), gridColumn: `${b.desde} / ${b.hasta}`, gridRow: b.carril }}
                 onClick={() => onSeleccionar(b.actividad.id)}
               >
                 <span className="vista-linea__barra-texto">
-                  <span className="oculto-visual">{b.actividad.tipo}: </span>
+                  <span className="oculto-visual">{b.actividad.categoria}: </span>
                   {b.actividad.nombre}
                 </span>
               </button>

@@ -19,7 +19,10 @@
 .vista-anio__celda--nivel-4, .vista-anio__muestra--nivel-4 { background: var(--color-accent-600); color: var(--color-bg); }
 .vista-anio__celda--hoy { box-shadow: 0 0 0 2px var(--color-text); }
 
-.vista-anio__leyenda { display: flex; align-items: center; gap: 8px; padding: 4px 2px 12px; font-size: 12px; color: var(--color-neutral-700); }
+.vista-anio__leyenda { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 4px 2px 12px; font-size: 12px; color: var(--color-neutral-700); }
+.vista-anio__leyenda-titulo { font-weight: 600; }
+.vista-anio__leyenda-item { display: inline-flex; align-items: center; gap: 6px; }
+.vista-anio__leyenda-nota { margin-left: auto; }
 .vista-anio__muestra { width: 14px; height: 14px; border-radius: 50%; }
 
 @media (max-width: 1180px) {

@@ -1,4 +1,4 @@
-import { porInicio, seSolapa } from '../../lib/actividades';
+import { porInicio, porRelevancia, seSolapa } from '../../lib/actividades';
 import { aClave, lunesDe, sumarDias } from '../../lib/fechas';
 import type { Actividad } from '../../tipos';
 
@@ -25,7 +25,7 @@ export function construirMes(actividades: readonly Actividad[], anio: number, me
       enMes: fecha.getMonth() === mes,
       finDeSemana: i % 7 > 4,
       esHoy: clave === hoy,
-      actividades: actividades.filter((a) => seSolapa(a, clave, clave)).sort(porInicio),
+      actividades: actividades.filter((a) => seSolapa(a, clave, clave)).sort(porRelevancia(porInicio)),
     };
   });
   return celdas.slice(35).some((c) => c.enMes) ? celdas : celdas.slice(0, 35);

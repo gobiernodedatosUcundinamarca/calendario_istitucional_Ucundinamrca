@@ -1,4 +1,4 @@
-import { porHora, seSolapa } from '../../lib/actividades';
+import { porHora, porRelevancia, seSolapa } from '../../lib/actividades';
 import { aClave, nombreDia, sumarDias } from '../../lib/fechas';
 import type { Actividad } from '../../tipos';
 
@@ -21,7 +21,7 @@ export function construirSemana(actividades: readonly Actividad[], lunes: Date, 
       dia: fecha.getDate(),
       finDeSemana: i > 4,
       esHoy: clave === hoy,
-      actividades: actividades.filter((a) => seSolapa(a, clave, clave)).sort(porHora),
+      actividades: actividades.filter((a) => seSolapa(a, clave, clave)).sort(porRelevancia(porHora)),
     };
   });
 }

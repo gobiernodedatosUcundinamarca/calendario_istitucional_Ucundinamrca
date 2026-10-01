@@ -105,6 +105,7 @@ export function PanelFiltros({ actividades, catalogos, filtros, total, abierto, 
           </div>
 
           <GrupoCasillas id="filtro-regional" titulo="Unidad regional" opciones={agrupar('regionales', catalogos.unidadesRegionales)} onAlternar={(v) => onAlternar('regionales', v)} />
+          <GrupoCasillas id="filtro-calendario" titulo="Calendario" ajustado opciones={agrupar('calendarios', catalogos.calendarios)} onAlternar={(v) => onAlternar('calendarios', v)} />
           <GrupoCasillas id="filtro-lider" titulo="Unidad líder" ajustado opciones={agrupar('lideres', catalogos.unidadesLider)} onAlternar={(v) => onAlternar('lideres', v)} />
           <GrupoCasillas id="filtro-responsable" titulo="Responsable" opciones={agrupar('responsables', catalogos.responsables)} onAlternar={(v) => onAlternar('responsables', v)} />
 

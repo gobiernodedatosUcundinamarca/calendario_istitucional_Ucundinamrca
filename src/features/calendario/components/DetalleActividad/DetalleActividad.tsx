@@ -10,6 +10,7 @@ import { estadoDe } from '../../lib/actividades';
 import { estiloTipo } from '../../lib/colores';
 import { aIcs, descargarArchivo } from '../../lib/exportar';
 import { textoRango } from '../../lib/fechas';
+import { textoHora } from '../../lib/texto';
 import type { Actividad } from '../../tipos';
 
 interface DetalleActividadProps {
@@ -23,10 +24,14 @@ export function DetalleActividad({ actividad: a, hoy, onCerrar }: DetalleActivid
   const tituloId = useId();
   const estado = estadoDe(a, hoy);
   const datos: [NombreIcono, string, string][] = [
-    ['calendario', 'Fecha', `${textoRango(a.inicio, a.fin)} · ${a.hora ? `${a.hora} h` : 'Todo el día'}`],
+    ['calendario', 'Fecha', `${textoRango(a.inicio, a.fin)} · ${textoHora(a)}`],
+    ['ubicacion', 'Unidad regional', a.todasLasRegionales ? 'Todas las unidades regionales' : a.regionales.join(' · ')],
+    ...(a.lugar ? [['puerta', 'Lugar', a.lugar] as [NombreIcono, string, string]] : []),
     ['persona', 'Responsable', a.responsable],
     ['edificio', 'Unidad líder', a.lider],
-    ['ubicacion', 'Unidad regional', a.todasLasRegionales ? 'Todas las unidades regionales' : a.regionales.join(' · ')],
+    ['libro', 'Calendario', a.calendario],
+    ...(a.subcategoria ? [['etiqueta', 'Subcategoría', a.subcategoria] as [NombreIcono, string, string]] : []),
+    ...(a.observaciones ? [['nota', 'Observaciones', a.observaciones] as [NombreIcono, string, string]] : []),
   ];
   const documento = (
     <>
@@ -41,8 +46,8 @@ export function DetalleActividad({ actividad: a, hoy, onCerrar }: DetalleActivid
   return (
     <Dialogo tituloId={tituloId} onCerrar={onCerrar} className="detalle-actividad">
       <div className="detalle-actividad__superior">
-        <span className="detalle-actividad__tipo" style={estiloTipo(a.color)}>
-          {a.tipo}
+        <span className="detalle-actividad__tipo" style={estiloTipo(a.color)} title={a.tipo}>
+          {a.categoria}
         </span>
         <Insignia variante={VARIANTE_ESTADO[estado]}>{estado}</Insignia>
         <Boton icono className="detalle-actividad__cerrar" aria-label="Cerrar" data-autofocus onClick={onCerrar}>

@@ -1,7 +1,7 @@
 import type { Actividad } from '../tipos';
 import { estadoDe, porInicio } from './actividades';
 import { aClave, aFecha, sumarDias } from './fechas';
-import { normalizarTexto } from './texto';
+import { normalizarTexto, textoHora } from './texto';
 
 // ── CSV ─────────────────────────────────────────────────────────────────
 // Punto y coma: separador de listas de Excel con configuración regional de Colombia.
@@ -9,9 +9,11 @@ import { normalizarTexto } from './texto';
 const celda = (valor: string) => `"${valor.replace(/"/g, '""')}"`;
 
 export function aCsv(actividades: readonly Actividad[], hoy: string): string {
-  const encabezado = 'Actividad;Inicio;Fin;Hora;Responsable;Unidad regional;Unidad líder;Tipo;Estado;Documento';
+  const encabezado =
+    'Actividad;Calendario;Categoría;Subcategoría;Tipo;Inicio;Fin;Hora inicio;Hora fin;Unidad regional;Lugar;Responsable;Unidad líder;Estado;Observaciones;Documento';
   const filas = [...actividades].sort(porInicio).map((a) =>
-    [a.nombre, a.inicio, a.fin, a.hora, a.responsable, a.regionales.join(' / '), a.lider, a.tipo, estadoDe(a, hoy), a.documento]
+    [a.nombre, a.calendario, a.categoria, a.subcategoria, a.tipo, a.inicio, a.fin, a.hora, a.horaFin, a.regionales.join(' / '), a.lugar,
+      a.responsable, a.lider, estadoDe(a, hoy), a.observaciones, a.documento]
       .map(celda)
       .join(';'),
   );
@@ -47,7 +49,10 @@ export function aIcs(actividades: readonly Actividad[], ahora = new Date()): str
   const lineas = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//UCundinamarca//Calendario institucional//ES', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
   for (const a of actividades) {
     const descripcion = [
-      a.hora && `Hora: ${a.hora}`,
+      a.hora && `Hora: ${textoHora(a)}`,
+      a.lugar && `Lugar: ${a.lugar}`,
+      `Calendario: ${a.calendario}`,
+      `Categoría: ${a.categoria}${a.subcategoria ? ` · ${a.subcategoria}` : ''}`,
       `Responsable: ${a.responsable}`,
       `Unidad líder: ${a.lider}`,
       `Unidades regionales: ${a.regionales.join(', ')}`,
@@ -63,7 +68,8 @@ export function aIcs(actividades: readonly Actividad[], ahora = new Date()): str
       `DTEND;VALUE=DATE:${aClave(sumarDias(aFecha(a.fin), 1)).replace(/-/g, '')}`,
       `SUMMARY:${escaparIcs(a.nombre)}`,
       `DESCRIPTION:${escaparIcs(descripcion)}`,
-      `CATEGORIES:${escaparIcs(a.tipo)}`,
+      ...(a.lugar ? [`LOCATION:${escaparIcs(`${a.lugar}, ${a.regionales.join(', ')}`)}`] : []),
+      `CATEGORIES:${escaparIcs(a.categoria)}`,
       'END:VEVENT',
     );
   }
