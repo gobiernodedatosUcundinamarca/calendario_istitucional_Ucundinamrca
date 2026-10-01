@@ -10,10 +10,10 @@ const celda = (valor: string) => `"${valor.replace(/"/g, '""')}"`;
 
 export function aCsv(actividades: readonly Actividad[], hoy: string): string {
   const encabezado =
-    'Actividad;Calendario;Categoría;Subcategoría;Tipo;Inicio;Fin;Hora inicio;Hora fin;Unidad regional;Lugar;Responsable;Unidad líder;Estado;Observaciones;Documento';
+    'Actividad;Calendario;Categoría;Subcategoría;Tipo;Inicio;Fin;Hora inicio;Hora fin;Unidad regional;Lugar;Responsable;Unidad líder;Estado;Observaciones';
   const filas = [...actividades].sort(porInicio).map((a) =>
     [a.nombre, a.calendario, a.categoria, a.subcategoria, a.tipo, a.inicio, a.fin, a.hora, a.horaFin, a.regionales.join(' / '), a.lugar,
-      a.responsable, a.lider, estadoDe(a, hoy), a.observaciones, a.documento]
+      a.responsable, a.lider, estadoDe(a, hoy), a.observaciones]
       .map(celda)
       .join(';'),
   );
@@ -56,7 +56,6 @@ export function aIcs(actividades: readonly Actividad[], ahora = new Date()): str
       `Responsable: ${a.responsable}`,
       `Unidad líder: ${a.lider}`,
       `Unidades regionales: ${a.regionales.join(', ')}`,
-      a.documento && `Documento: ${a.documento}${a.enlace ? ` (${a.enlace})` : ''}`,
     ]
       .filter(Boolean)
       .join('\n');

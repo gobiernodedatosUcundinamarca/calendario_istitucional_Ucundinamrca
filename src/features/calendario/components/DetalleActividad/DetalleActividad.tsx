@@ -33,16 +33,6 @@ export function DetalleActividad({ actividad: a, hoy, onCerrar }: DetalleActivid
     ...(a.subcategoria ? [['etiqueta', 'Subcategoría', a.subcategoria] as [NombreIcono, string, string]] : []),
     ...(a.observaciones ? [['nota', 'Observaciones', a.observaciones] as [NombreIcono, string, string]] : []),
   ];
-  const documento = (
-    <>
-      <Icono nombre="documento" tamano={20} className="detalle-actividad__documento-icono" />
-      <span className="detalle-actividad__documento-textos">
-        <span className="detalle-actividad__documento-nombre">{a.documento}</span>
-        <span className="detalle-actividad__documento-sub">Documento de soporte</span>
-      </span>
-    </>
-  );
-
   return (
     <Dialogo tituloId={tituloId} onCerrar={onCerrar} className="detalle-actividad">
       <div className="detalle-actividad__superior">
@@ -70,16 +60,6 @@ export function DetalleActividad({ actividad: a, hoy, onCerrar }: DetalleActivid
           </div>
         ))}
       </dl>
-
-      {a.documento &&
-        (a.enlace ? (
-          <a className="detalle-actividad__documento detalle-actividad__documento--enlace" href={a.enlace} target="_blank" rel="noopener noreferrer">
-            {documento}
-            <span className="detalle-actividad__documento-abrir">Abrir</span>
-          </a>
-        ) : (
-          <div className="detalle-actividad__documento">{documento}</div>
-        ))}
 
       <div className="dialogo__acciones">
         <Boton className="dialogo__accion" onClick={() => descargarArchivo('actividad.ics', aIcs([a]), 'text/calendar;charset=utf-8')}>

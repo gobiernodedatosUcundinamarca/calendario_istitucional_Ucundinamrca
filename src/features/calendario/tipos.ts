@@ -14,7 +14,7 @@ export interface ColorTipo {
   texto: string;
 }
 
-export type EstadoActividad = 'Programada' | 'En curso' | 'Finalizada' | 'Aplazada';
+export type EstadoActividad = 'Programada' | 'En curso' | 'Finalizada';
 
 /** Actividad tal como se escribe en src/datos/actividades.ts. */
 export interface ActividadFuente {
@@ -35,9 +35,6 @@ export interface ActividadFuente {
   regionales: 'todas' | readonly UnidadRegional[];
   lugar?: string;
   observaciones?: string;
-  documento?: string;
-  enlace?: string;
-  estado?: EstadoActividad;
 }
 
 /** Actividad normalizada que usan las vistas. */
@@ -62,9 +59,6 @@ export interface Actividad {
   todasLasRegionales: boolean;
   lugar: string;
   observaciones: string;
-  documento: string;
-  enlace: string;
-  estadoFijo: EstadoActividad | null;
   color: ColorTipo;
 }
 

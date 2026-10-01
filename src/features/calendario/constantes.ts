@@ -16,7 +16,6 @@ export const VARIANTE_ESTADO: Record<EstadoActividad, VarianteInsignia> = {
   Programada: 'contorno',
   'En curso': 'acento-2',
   Finalizada: 'neutra',
-  Aplazada: 'acento',
 };
 
 /** Actividades visibles por día en la vista Mes antes de "+N más". */

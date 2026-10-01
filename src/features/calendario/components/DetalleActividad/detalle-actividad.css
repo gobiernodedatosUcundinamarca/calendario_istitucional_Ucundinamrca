@@ -14,17 +14,6 @@
 .detalle-actividad__icono { flex: none; color: var(--color-accent-700); }
 .detalle-actividad__valor { margin: 0; font-weight: 600; }
 
-.detalle-actividad__documento {
-  display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 18px;
-  background: var(--color-neutral-100); color: var(--color-text); text-decoration: none;
-}
-.detalle-actividad__documento--enlace:hover { background: var(--color-neutral-200); }
-.detalle-actividad__documento-icono { flex: none; color: var(--color-accent-700); }
-.detalle-actividad__documento-textos { display: flex; flex: 1; flex-direction: column; min-width: 0; }
-.detalle-actividad__documento-nombre { font-size: 14px; font-weight: 700; overflow-wrap: anywhere; }
-.detalle-actividad__documento-sub { font-size: 12px; color: var(--color-neutral-700); }
-.detalle-actividad__documento-abrir { font-size: 13px; font-weight: 700; color: var(--color-accent-700); }
-
 @media (max-width: 860px) {
   .detalle-actividad__titulo { font-size: 23px; }
   .detalle-actividad__dato { grid-template-columns: 136px minmax(0, 1fr); }

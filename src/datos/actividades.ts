@@ -5,7 +5,7 @@
  *
  * Campos: nombre · categoria (una de `categorias`) · subcategoria opcional · calendario (uno de `calendarios`)
  * · inicio/fin (AAAA-MM-DD) · hora/horaFin opcionales (HH:MM) · responsable · lider · regionales ('todas' o
- * lista de sedes) · lugar, observaciones, documento, enlace y estado opcionales.
+ * lista de sedes) · lugar y observaciones opcionales.
  */
 import type { ActividadFuente } from '@/features/calendario/tipos';
 

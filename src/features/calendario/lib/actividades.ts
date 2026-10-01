@@ -41,16 +41,12 @@ export function normalizarActividades(fuente: readonly ActividadFuente[], catalo
       todasLasRegionales: regionales.length === catalogos.unidadesRegionales.length,
       lugar: a.lugar ?? '',
       observaciones: a.observaciones ?? '',
-      documento: a.documento ?? '',
-      enlace: a.enlace ?? '',
-      estadoFijo: a.estado ?? null,
       color: colorDe(tipo, catalogos),
     };
   });
 }
 
 export function estadoDe(a: Actividad, hoy: string): EstadoActividad {
-  if (a.estadoFijo) return a.estadoFijo;
   if (a.fin < hoy) return 'Finalizada';
   if (a.inicio > hoy) return 'Programada';
   return 'En curso';
