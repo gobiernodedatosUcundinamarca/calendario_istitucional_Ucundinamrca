@@ -5,7 +5,8 @@
 Aplicación Next.js (App Router) que publica el calendario institucional. El diseño viene del proyecto
 **"Calendario institucional Cundinamarca"** en Claude Design: variante **1a** para escritorio y los
 patrones de la **1c** para móvil. `legacy/version-estatica/` es el prototipo previo en HTML; no forma
-parte de la app (está excluido de TypeScript y ESLint).
+parte de la app (está excluido de TypeScript y ESLint). `herramientas/` son los scripts de Python que preparan los
+datos (`rules/datos.md`).
 
 ## Comandos
 
@@ -26,6 +27,8 @@ Cada tema vive en un solo lugar; este archivo no repite su contenido.
   cargan solo al trabajar con esos archivos; las demás, siempre.
 - `skills/` — los procedimientos de varios pasos, que se invocan con `/nombre`.
 - `settings.json` + `hooks/` — lo que se hace cumplir de forma automática, sin depender de las instrucciones.
+  Todo cambio en `.claude/` pide confirmación: la regla `ask` cubre las herramientas de edición (en cualquier modo
+  de permisos) y `hooks/confirmar-cambios-claude.mjs`, los comandos de terminal. Los hooks necesitan `node` en el PATH.
 
 Los hooks y las reglas no se desactivan ni se rodean para terminar una tarea: si algo bloquea, corrige la
 causa. Los ajustes personales van en `settings.local.json`, que no se versiona.
@@ -41,3 +44,5 @@ causa. Los ajustes personales van en `settings.local.json`, que no se versiona.
 - Quitar `settings.react.version` de `eslint.config.mjs` cuando `eslint-plugin-react` soporte ESLint 10.
 - Ajustar con el equipo de diseño los colores de tipo que se confunden con daltonismo (`rules/visualizacion.md`).
 - Borrar `legacy/version-estatica/` cuando ya no haga falta como referencia.
+- Revisar con las áreas las parejas de «Dudosas (revisar)» y las actividades sin fecha de «Excluidas» en
+  `herramientas/salida/Revisión carga 2026.xlsx` (`rules/datos.md`).

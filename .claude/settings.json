@@ -5,6 +5,9 @@
     "pr": "",
     "sessionUrl": false
   },
+  "permissions": {
+    "ask": ["Edit(/.claude/**)"]
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -16,6 +19,13 @@
             "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/proteger-autoria.mjs"],
             "timeout": 15,
             "statusMessage": "Verificando autoría de git"
+          },
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/confirmar-cambios-claude.mjs"],
+            "timeout": 10,
+            "statusMessage": "Revisando cambios en .claude"
           }
         ]
       }

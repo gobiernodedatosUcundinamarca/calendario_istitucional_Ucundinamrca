@@ -10,7 +10,7 @@ src/
   app/                    rutas: layout.tsx, page.tsx, globals.css, icon.png (solo composición)
   assets/                 imágenes importadas estáticamente (escudo)
   components/ui/          bloques genéricos reutilizables: Boton, Entrada, Campo, Insignia, Dialogo, Icono
-  datos/                  datos editables: catalogos.ts, actividades.ts
+  datos/                  catalogos.ts (a mano); actividades.ts y responsables.ts (generados por herramientas/cargar.py)
   features/calendario/    la funcionalidad completa
     index.ts              API pública: fuera de la carpeta se importa solo desde aquí
     tipos.ts, constantes.ts
