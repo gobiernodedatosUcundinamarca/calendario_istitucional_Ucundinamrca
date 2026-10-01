@@ -42,3 +42,15 @@ next-env.d.ts
 
 # claude code: ajustes personales (los compartidos van en .claude/settings.json)
 .claude/settings.local.json
+
+# salidas de pruebas en el navegador
+.playwright-mcp/
+
+# herramientas de datos (Python): formatos recibidos, informes, respaldos y el .exe (ver herramientas/LEEME.md)
+__pycache__/
+/herramientas/formatos/
+/herramientas/salida/
+/herramientas/*.exe
+
+# datos de origen y Excel fuente de la app: traen nombres y correos de personas (ver .claude/rules/datos.md)
+/data/
